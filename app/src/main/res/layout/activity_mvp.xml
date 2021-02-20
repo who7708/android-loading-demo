@@ -5,12 +5,18 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/default_margin"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activies.MvpActivity">
+
+    <TextView
+        android:id="@+id/show_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_result"
+        android:textSize="@dimen/default_text_size" />
 
     <Button
-        android:id="@+id/mvp_btn"
+        android:id="@+id/request_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/mvp_btn" />
-
+        android:text="@string/request_btn" />
 </LinearLayout>
