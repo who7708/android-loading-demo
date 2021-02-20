@@ -7,6 +7,7 @@ import com.google.gson.JsonParseException;
 import org.json.JSONException;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import retrofit2.HttpException;
 
@@ -59,6 +60,10 @@ public class ExceptionHandle {
             ex = new ResponseThrowable(e, ERROR.NETWORD_ERROR);
             ex.msg = "连接失败";
             return ex;
+        } else if (e instanceof SocketTimeoutException) {
+            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
+            ex.msg = "请求超时";
+            return ex;
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
             ex.msg = "证书验证失败";
@@ -77,7 +82,7 @@ public class ExceptionHandle {
         /**
          * 未知错误
          */
-        public static final int UNKNOWN = 1000;
+        public static final int UNKNOWN = 9999;
         /**
          * 解析错误
          */
@@ -95,6 +100,8 @@ public class ExceptionHandle {
          * 证书出错
          */
         public static final int SSL_ERROR = 1005;
+
+        public static final int TIMEOUT_ERROR = 1006;
     }
 
     public static class ResponseThrowable extends Exception {

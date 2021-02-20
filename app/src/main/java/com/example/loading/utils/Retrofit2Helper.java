@@ -43,6 +43,10 @@ public class Retrofit2Helper {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                // 各种超时 timeout，默认都是 10s
+                // .connectTimeout(30, TimeUnit.SECONDS)
+                // .readTimeout(30, TimeUnit.SECONDS)
+                // .writeTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .addInterceptor(new Interceptor() {
                     @NotNull
@@ -58,9 +62,9 @@ public class Retrofit2Helper {
                 })
                 // .cache(new Cache(cacheDir, cacheSize))
                 .build();
+
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                // .baseUrl("https://springboot.net.cn/api/")
                 .baseUrl("http://192.168.31.10:7001/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
