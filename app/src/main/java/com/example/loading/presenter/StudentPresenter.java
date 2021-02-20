@@ -2,7 +2,9 @@ package com.example.loading.presenter;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.loading.model.ExceptionHandle;
 import com.example.loading.model.Student;
 import com.example.loading.service.StudentService;
 import com.example.loading.utils.Retrofit2Helper;
@@ -69,15 +71,18 @@ public class StudentPresenter {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        Log.i(TAG, "onNext: " + Thread.currentThread().getName());
+                        Log.i(TAG, "onError: " + Thread.currentThread().getName());
                         if (kProgressHUD.isShowing()) {
                             kProgressHUD.dismiss();
                         }
+                        //对网络请求错误统一封装处理
+                        ExceptionHandle.ResponseThrowable error = ExceptionHandle.handleException(e);
+                        Toast.makeText(context, error.getCode() + ":" + error.getMsg(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.i(TAG, "onNext: " + Thread.currentThread().getName());
+                        Log.i(TAG, "onComplete: " + Thread.currentThread().getName());
                         if (kProgressHUD.isShowing()) {
                             kProgressHUD.dismiss();
                         }
@@ -85,4 +90,5 @@ public class StudentPresenter {
                 });
         Log.i(TAG, "getData: 请求完成");
     }
+
 }
